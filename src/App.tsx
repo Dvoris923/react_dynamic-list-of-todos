@@ -12,12 +12,12 @@ import { Todo } from './types/Todo';
 
 export const App: React.FC = () => {
   const [isLoader, setIsLoader] = useState(true);
-  const [Todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   const [query, setQuery] = useState('');
-  const [status, setStatus] = useState<'all' | 'active' | 'complited'>('all');
+  const [status, setStatus] = useState<'all' | 'active' | 'completed'>('all');
 
-  const [filteredTodos, setFilteresTodos] = useState<Todo[]>([]);
+  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
 
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -35,11 +35,11 @@ export const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!Todos.length) {
+    if (!todos.length) {
       return;
     }
 
-    let filtered = [...Todos];
+    let filtered = [...todos];
 
     if (query.trim()) {
       filtered = filtered.filter(todo =>
@@ -53,8 +53,8 @@ export const App: React.FC = () => {
       filtered = filtered.filter(todo => !todo.completed);
     }
 
-    setFilteresTodos(filtered);
-  }, [Todos, query, status]);
+    setFilteredTodos(filtered);
+  }, [todos, query, status]);
 
   const openModal = (todo: Todo) => {
     setSelectedTodo(todo);
@@ -93,7 +93,7 @@ export const App: React.FC = () => {
                 <Loader />
               ) : (
                 <TodoList
-                  todos={hasActiveFilter ? filteredTodos : Todos}
+                  todos={hasActiveFilter ? filteredTodos : todos}
                   onSelect={openModal}
                   selectedTodoId={selectedTodo?.id}
                 />
